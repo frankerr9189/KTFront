@@ -5,5 +5,5 @@ height: 200px;
 background-image: url("img/banner.jpeg");
 background-position: center;
 background-size: cover;
-width: 100%;
+filter: contrast(85%);
 `
