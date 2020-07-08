@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import {pizzaRed} from "../Styles/colors";
+import {seaBlue} from "../Styles/colors";
 import {Title} from "../Styles/title";
 const NavbarStyled = styled.div`
-    background-color: ${pizzaRed};
+    background-color: ${seaBlue};
     padding: 10px;
     position: fixed;
     width: 100%;
