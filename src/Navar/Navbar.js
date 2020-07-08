@@ -17,7 +17,7 @@ text-shadow: 1px 1px 4px #380503;
 export function Navbar() {
     return <NavbarStyled>
         <Logo>
-            K-Tech 🍻
+            Koastal-Technologies 🍻
         </Logo>
     </NavbarStyled>;
 }
