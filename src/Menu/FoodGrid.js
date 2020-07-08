@@ -19,11 +19,16 @@ font-size: 20px;
 background-image: ${({img}) => `url(${img});`} 
 background-position: center;
 background-size: cover;
-filter: contrast(85%);
+filter: contrast(70%);
 border-radius: 7px;
-box-shadow: 0px 0px 10px 0px grey;
-&:hover{
+margin-top: 5px;
+transition-property: box-shadow margin-top;
+transition-duration: 1s;
+box-shadow: 0px 0px 4px 0px grey;
+&:hover {
     cursor: pointer;
-    opacity: 0.7;
+    filter: contrast(100%)
+    margin-top: 0px;
+    box-shadow: 0px 0px 15px 0px grey;
 }
 `
