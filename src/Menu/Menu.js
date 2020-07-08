@@ -17,7 +17,7 @@ export function Menu(){
         {foods.map(food =>(
             <Food img={food.img}>
                 <FoodLabel>{food.name}</FoodLabel>
-                </Food>
+            </Food>
         ))}
         </FoodGrid>
         </>
