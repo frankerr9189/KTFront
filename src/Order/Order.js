@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {DialogContent, DialogFooter, ConfirmButton} from "../FoodDialog/FoodDialog";
+import {formatPrice} from "../Data/FoodData";
 
 const OrderStyled = styled.div`
 position: fixed;
@@ -26,7 +27,10 @@ const OrderContainer = styled.div`
 `
 const OrderItem = styled.div`
     padding: 10px 0px;
-`
+    display: grid;
+    grid-template-columns: 20px 150px 20px 60px;
+    justify-content: space-between;
+`;
 
 export function Order({orders}) {
     return <OrderStyled>
@@ -41,7 +45,10 @@ export function Order({orders}) {
             {orders.map(order => (
                 <OrderContainer>
                     <OrderItem>
-                        {order.name}
+                        <div>1</div>
+                        <div>{order.name}</div>
+                        <div/>
+            <div>{formatPrice(order.price)}</div>
                     </OrderItem>
                 </OrderContainer>
             ))}
