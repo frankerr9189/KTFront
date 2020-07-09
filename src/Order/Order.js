@@ -18,13 +18,15 @@ flex-direction: column;
 const OrderContent = styled(DialogContent)`
 padding: 20px;
 height: 100%
-`
+`;
 
-export function Order() {
+export function Order({orders}) {
     return <OrderStyled>
+    {orders.length === 0 ?<OrderContent>Your cart is empty...
+        </OrderContent> : 
         <OrderContent>
-            Your cart is empty...
-        </OrderContent>
+            You have {orders.length} item(s) in your cart.
+        </OrderContent>}
         <DialogFooter>
             <ConfirmButton>
                 Checkout
