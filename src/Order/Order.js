@@ -61,24 +61,32 @@ export function Order({orders}) {
                 </OrderContainer>
                  ))}
                 <OrderContainer>
+                    <OrderItem>
                     <div/>
                     <div>Sub-Total:</div>
                     <div>{formatPrice(subtotal)}</div>
+                    </OrderItem>
                 </OrderContainer>
                 <OrderContainer>
+                    <OrderItem>
                     <div/>
                     <div>Tax:</div>
                     <div>{formatPrice(tax)}</div>
+                    </OrderItem>
                 </OrderContainer>
                 <OrderContainer>
+                    <OrderItem>
                     <div/>
                     <div>Processing Fee:</div>
                     <div>{formatPrice(processingFee)}</div>
+                    </OrderItem>
                 </OrderContainer>
                 <OrderContainer>
+                    <OrderItem>
                     <div/>
                     <div>Total</div>
                     <div>{formatPrice(total)}</div>
+                    </OrderItem>
                 </OrderContainer>
            
         </OrderContent>}
