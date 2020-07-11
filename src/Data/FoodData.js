@@ -126,6 +126,12 @@ export const foodItems =[
         category: 'Drinks',
         price: 8
     },
+    {
+        name: 'Soda',
+        price: 1,
+        section: 'Soda',
+        choices: ['Coke', 'Pepsi', 'Sprite', 'Root Beer']
+    }
 ];
 
 export const foods = foodItems.reduce((res, food) => {
