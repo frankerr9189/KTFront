@@ -70,6 +70,8 @@ export function Order({orders}) {
                         .join(", ")
                         }
                     </DetailItem>
+                    {order.choice && <DetailItem>{order.choice}
+                    </DetailItem>}
                 </OrderContainer>
                  ))}
                 <OrderContainer>
@@ -78,15 +80,11 @@ export function Order({orders}) {
                     <div>Sub-Total:</div>
                     <div>{formatPrice(subtotal)}</div>
                     </OrderItem>
-                </OrderContainer>
-                <OrderContainer>
                     <OrderItem>
                     <div/>
                     <div>Tax:</div>
                     <div>{formatPrice(tax)}</div>
                     </OrderItem>
-                </OrderContainer>
-                <OrderContainer>
                     <OrderItem>
                     <div/>
                     <div>Processing Fee:</div>
