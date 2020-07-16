@@ -34,7 +34,7 @@ export function Navbar({history}) {
             </Logo>
            <LogoSignin>
                {!isAuthenticated() &&(
-                   <Link color="white"
+                   <Link text-color="white"
                    to="/signin">Sign-in</Link>
                )}
 
