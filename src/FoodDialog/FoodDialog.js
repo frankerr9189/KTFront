@@ -11,7 +11,7 @@ import {useToppings} from "../Hooks/useToppings";
 import {useChoice} from "../Hooks/useChoice";
 import {Choices} from "./Choices";
 
-const Dialog = styled.div`
+export const Dialog = styled.div`
     width: 500px;
     background-color: white;
     position: fixed;

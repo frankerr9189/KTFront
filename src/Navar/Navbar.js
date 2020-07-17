@@ -29,16 +29,36 @@ const {user} = isAuthenticated();
 
 export function Navbar({history}) {
     return <NavbarStyled>
+        <>
         <Logo>
             Koastal-Technologies <span role="img" aria-label="KT">🍻</span>
-            </Logo>
-           <LogoSignin>
+
+           {isAuthenticated() && isAuthenticated().user.role === 0 && (
+
+           <Link
+           className="nav-link"
+           to="/dashboard"
+           >
+           Dashboard
+           </Link>
+           )}
+           {isAuthenticated() && isAuthenticated().user.role === 1 && (
+        <Link
+            className="nav-link"
+            to="/admin/dashboard"
+            >
+           Dashboard
+        </Link>
+         )}
+          
+            <LogoSignin>
                {!isAuthenticated() &&(
-                   <Link text-color="white"
+                   <Link
                    to="/signin">Sign-in</Link>
                )}
+                
 
-{isAuthenticated() && (
+            {isAuthenticated() && (
                 <Fragment>
             <li className="nav-item">
                 <span
@@ -55,7 +75,8 @@ export function Navbar({history}) {
             </li>
             </Fragment>
             )}
-
-               </LogoSignin>
+            </LogoSignin>
+               </Logo>
+               </>
     </NavbarStyled>;
 }
