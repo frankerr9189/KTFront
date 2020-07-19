@@ -34,7 +34,6 @@ export function Navbar({history}) {
             Koastal-Technologies <span role="img" aria-label="KT">🍻</span>
 
            {isAuthenticated() && isAuthenticated().user.role === 0 && (
-
            <Link
            className="nav-link"
            to="/dashboard"
@@ -42,6 +41,7 @@ export function Navbar({history}) {
            Dashboard
            </Link>
            )}
+
            {isAuthenticated() && isAuthenticated().user.role === 1 && (
         <Link
             className="nav-link"

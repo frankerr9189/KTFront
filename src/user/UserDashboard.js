@@ -10,19 +10,21 @@ import {Link} from 'react-router-dom';
 import {Food, FoodGrid, FoodLabel} from "../Menu/FoodGrid";
 import {DashHelper} from "./dashboardhelper";
 import {CatDialog} from "./CategoryDialog";
+import {ProdDialog} from "./ProductDialog";
 
 const Dashboard =() => {
     const [categoryWin, setCategoryWin] =useState();
+    const [productWin, setProductWin] =useState();
     return(
         <>
     <GlobalStyle/>
     <CatDialog/>
     <FoodDialog/>
     <CatDialog categoryWin={categoryWin} setCategoryWin={setCategoryWin}/>
+    <ProdDialog productWin={productWin} setProductWin={setProductWin}/>
     <Navbar/>
     <Banner/>
-    <div>{categoryWin}</div>
-    <DashHelper setCategoryWin={setCategoryWin}/>
+    <DashHelper setCategoryWin={setCategoryWin} setProductWin={setProductWin}/>
    </>
     );
 }
