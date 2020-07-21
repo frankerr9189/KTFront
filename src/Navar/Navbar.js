@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react';
+import {useHistory} from 'react-router-dom'
 import styled from 'styled-components';
 import {seaBlue} from "../Styles/colors";
 import {Title} from "../Styles/title";
@@ -27,7 +28,8 @@ padding-right: 30px;
 `
 const {user} = isAuthenticated();
 
-export function Navbar({history}) {
+export function Navbar() {
+    const history = useHistory();
     return <NavbarStyled>
         <>
         <Logo>

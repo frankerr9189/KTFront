@@ -6,15 +6,17 @@ import {FoodDialog, Dialog} from "../FoodDialog/FoodDialog";
 import styled from "styled-components";
 import {Title} from "../Styles/title";
 import {isAuthenticated} from "../auth";
-import {Link} from 'react-router-dom';
-import {Food, FoodGrid, FoodLabel} from "../Menu/FoodGrid";
 import {DashHelper} from "./dashboardhelper";
 import {CatDialog} from "./CategoryDialog";
 import {ProdDialog} from "./ProductDialog";
+import {ProdUpdateDialog} from "./ProductUpdate";
+
 
 const Dashboard =() => {
     const [categoryWin, setCategoryWin] =useState();
     const [productWin, setProductWin] =useState();
+    const [productUpdate, setProductUpdate]=useState();
+
     return(
         <>
     <GlobalStyle/>
@@ -22,9 +24,10 @@ const Dashboard =() => {
     <FoodDialog/>
     <CatDialog categoryWin={categoryWin} setCategoryWin={setCategoryWin}/>
     <ProdDialog productWin={productWin} setProductWin={setProductWin}/>
+    <ProdUpdateDialog productUpdate={productUpdate} setProductUpdate={setProductUpdate}/>
     <Navbar/>
     <Banner/>
-    <DashHelper setCategoryWin={setCategoryWin} setProductWin={setProductWin}/>
+    <DashHelper setCategoryWin={setCategoryWin} setProductWin={setProductWin} setProductUpdate={setProductUpdate} />
    </>
     );
 }

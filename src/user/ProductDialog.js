@@ -86,7 +86,7 @@ export function ProdDialog({productWin , setProductWin}){
         categories: [],
         category: '',
         shipping:'',
-        quantity: '',
+        //quantity: '',
         photo: '',
         loading: false,
         error: '',
@@ -102,7 +102,7 @@ export function ProdDialog({productWin , setProductWin}){
     categories,
     category,
     shipping,
-    quantity,
+    //quantity,
     loading,
     error,
     createdProduct,
@@ -149,7 +149,7 @@ export function ProdDialog({productWin , setProductWin}){
                     description:'',
                     photo:'',
                     price:'',
-                    quantity:'',
+                    //quantity:'',
                     loading: false,
                     createdProduct: data.name
                 });
@@ -191,12 +191,12 @@ export function ProdDialog({productWin , setProductWin}){
                 </select>
             </div>
             <div className="form-group">
-            <label className="text-muted">Quantity</label>
+            {/* <label className="text-muted">Quantity</label>
                 <input 
                 onChange={handleChange('quantity')} 
                 type="number" 
                 className="form-control" 
-                value={quantity}/>
+                value={quantity}/> */}
             </div>
             <div className="form-group">
                 <label className="text-muted">Shipping</label>

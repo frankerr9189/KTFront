@@ -10,6 +10,7 @@ import {Toppings} from "./Toppings";
 import {useToppings} from "../Hooks/useToppings";
 import {useChoice} from "../Hooks/useChoice";
 import {Choices} from "./Choices";
+import {API} from "../config";
 
 export const Dialog = styled.div`
     width: 500px;
@@ -120,7 +121,7 @@ function FoodDialogContainer({openFood, setOpenFood, setOrders, orders}){
     <>
     <DialogShadow onClick={close}/>
     <Dialog> 
-    <DialogBanner img={openFood.img}>
+    <DialogBanner img={`${API}/product/photo/${openFood._id}`}>
         <DialogBannerName>{openFood.name}</DialogBannerName>
     </DialogBanner>
     <DialogContent>
