@@ -10,6 +10,7 @@ import {Toppings} from "./Toppings";
 import {useToppings} from "../Hooks/useToppings";
 import {useChoice} from "../Hooks/useChoice";
 import {Choices} from "./Choices";
+import {addItem} from "../Cart/carthelper";
 import {API} from "../config";
 
 export const Dialog = styled.div`
@@ -86,7 +87,7 @@ pointer-events: none;
 `;
 
 function hasToppings(food){
-    return food.category === 'Pizza';
+    return food.category.name === 'Pizza';
 }
 
 function FoodDialogContainer({openFood, setOpenFood, setOrders, orders}){
@@ -115,6 +116,8 @@ function FoodDialogContainer({openFood, setOpenFood, setOrders, orders}){
 
     function addToOrder(){
         setOrders([...orders, order]);
+        addItem(order);
+        console.log(addItem(order));
         close();
     }
     return (

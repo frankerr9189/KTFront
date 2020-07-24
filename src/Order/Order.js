@@ -1,8 +1,10 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {DialogContent, DialogFooter, ConfirmButton} from "../FoodDialog/FoodDialog";
 import {formatPrice} from "../Data/FoodData";
 import {getPrice} from "../FoodDialog/FoodDialog";
+import {removeItem, addItem, emptyCart} from "../Cart/carthelper";
 
 const OrderStyled = styled.div`
 position: fixed;
@@ -127,7 +129,8 @@ export function Order({orders, setOrders, setOpenFood}) {
         </OrderContent>}
         <DialogFooter>
             <ConfirmButton>
-                Checkout
+                <Link to="/checkout">
+                Checkout </Link>
             </ConfirmButton>
         </DialogFooter>
     </OrderStyled>;
