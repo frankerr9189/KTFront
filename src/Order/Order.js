@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {DialogContent, DialogFooter, ConfirmButton} from "../FoodDialog/FoodDialog";
 import {formatPrice} from "../Data/FoodData";
 import {getPrice} from "../FoodDialog/FoodDialog";
-import {removeItem, addItem, emptyCart} from "../Cart/carthelper";
+import {removeItem, addItem, emptyCart, addSubtotal} from "../Cart/carthelper";
 
 const OrderStyled = styled.div`
 position: fixed;
@@ -64,6 +64,7 @@ export function Order({orders, setOrders, setOpenFood}) {
         newOrders.splice(index, 1);
         setOrders(newOrders);
     }
+
 
     return <OrderStyled>
     {orders.length === 0 ?<OrderContent>Your cart is empty...

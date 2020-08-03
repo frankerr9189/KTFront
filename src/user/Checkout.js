@@ -8,8 +8,8 @@ import {useOpenFood} from "../Hooks/useOpenFood";
 import {useOrders} from "../Hooks/useOrders";
 import {useTitle} from "../Hooks/useTitle";
 import {CheckoutStyled} from "./CheckoutStyled";
-import {Cart} from "./cart";
 import {getBraintreeClientToken} from "../admin/adminApi";
+
 
 function Checkout() {
   const openFood = useOpenFood();
@@ -22,7 +22,7 @@ function Checkout() {
     <FoodDialog {...openFood}{...orders}/>
     <Navbar/>
     <Banner/>
-    <CheckoutStyled {...openFood}{...orders}/>
+    <CheckoutStyled/>
    </>
   );
 }

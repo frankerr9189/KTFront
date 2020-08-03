@@ -117,7 +117,7 @@ function FoodDialogContainer({openFood, setOpenFood, setOrders, orders}){
     function addToOrder(){
         setOrders([...orders, order]);
         addItem(order);
-        console.log(addItem(order));
+        console.log(order);
         close();
     }
     return (
