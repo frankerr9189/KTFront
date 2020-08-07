@@ -144,6 +144,7 @@ function AdminOrders() {
                     <StyledTableCell>Order #</StyledTableCell>
                     <StyledTableCell align="right">Date</StyledTableCell>
                     <StyledTableCell align="right">Name</StyledTableCell>
+                    <StyledTableCell align="right">Delivery Address</StyledTableCell>
                     <StyledTableCell align="right">Total</StyledTableCell>
                     <StyledTableCell align="right">Delivery Method</StyledTableCell>
                     <StyledTableCell align="right">Status</StyledTableCell>
@@ -159,7 +160,10 @@ function AdminOrders() {
                       </StyledTableCell>
                       <StyledTableCell align="right">{moment(o.createdAt).fromNow()}</StyledTableCell>
                       <StyledTableCell align="right">{o.ShipName}</StyledTableCell>
-                      <StyledTableCell align="right">{o.ShipName}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    <div>{o.ShipAddress}</div>
+                    <div>{o.ShipCity}{", "}{o.ShipState}{" "}{o.ShipZip}</div>
+                    </StyledTableCell>
                       <StyledTableCell align="right">{'$'}{o.totalPrice.toFixed(2)}</StyledTableCell>
                       <StyledTableCell align="right">{o.method}</StyledTableCell>
                       <StyledTableCell align="right">{showStatus(o)}</StyledTableCell>
