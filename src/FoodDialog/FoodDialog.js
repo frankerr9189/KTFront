@@ -10,7 +10,7 @@ import {Toppings} from "./Toppings";
 import {useToppings} from "../Hooks/useToppings";
 import {useChoice} from "../Hooks/useChoice";
 import {Choices} from "./Choices";
-import {addItem} from "../Cart/carthelper";
+import {addItem, updateItem} from "../Cart/carthelper";
 import {API} from "../config";
 
 export const Dialog = styled.div`
@@ -47,6 +47,10 @@ const DialogBannerName = styled(FoodLabel)`
     padding: 5px 40px;
     top: ${({img}) => (img ? `100px` : `20px`)};
 `;
+
+function refreshPage() {
+    window.location.reload(false);
+  }
 
 const pricePerTopping = 0.5;
 
@@ -104,14 +108,16 @@ function FoodDialogContainer({openFood, setOpenFood, setOrders, orders}){
         ...openFood,
         quantity: quantity.value,
         toppings: toppings.toppings,
-        choice: choiceRadio.value
+        choice: choiceRadio.value,
     };
 
     function editOrder(){
         const newOrders = [...orders];
         newOrders[order.index] = order;
+        updateItem(newOrders[order.index]._id, quantity);//not working
         setOrders(newOrders);
         close();
+        refreshPage();
     };
 
     function addToOrder(){
@@ -119,6 +125,7 @@ function FoodDialogContainer({openFood, setOpenFood, setOrders, orders}){
         addItem(order);
         console.log(order);
         close();
+        refreshPage();
     }
     return (
     <>
@@ -139,7 +146,7 @@ function FoodDialogContainer({openFood, setOpenFood, setOrders, orders}){
     </DialogContent>
     <DialogFooter>
     <ConfirmButton 
-    onClick={isEditing ? editOrder : addToOrder} 
+    onClick={isEditing ? editOrder : addToOrder}
     disabled={openFood.choices && !choiceRadio.value}>
         {isEditing ? `Update order` : `Add to order: `}{formatPrice(getPrice(order))}</ConfirmButton>
     </DialogFooter>

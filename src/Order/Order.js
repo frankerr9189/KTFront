@@ -1,11 +1,44 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {DialogContent, DialogFooter, ConfirmButton} from "../FoodDialog/FoodDialog";
 import {formatPrice} from "../Data/FoodData";
 import {getPrice} from "../FoodDialog/FoodDialog";
-import {removeItem, addItem, emptyCart, addSubtotal} from "../Cart/carthelper";
+import {removeItem, getCart, addItem, emptyCart, addSubtotal} from "../Cart/carthelper";
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
+  
+  const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }))(TableRow);
+
+  const useStyles = makeStyles({
+    table: {
+      minWidth: 700,
+    },
+  });
+  
 const OrderStyled = styled.div`
 position: fixed;
 right: 0px;
@@ -51,35 +84,47 @@ const DetailItem = styled.div`
     font-size: 10px;
 `
 
+function refreshPage() {
+    window.location.reload(false);
+  }
+
 export function Order({orders, setOrders, setOpenFood}) {
-    const subtotal = orders.reduce((total, order) => {
+    const [items, setItems] = useState([]);
+    const subtotal = items.reduce((total, order) => {
         return total + getPrice(order);
     }, 0);
     const tax = subtotal * 0.07;
     const processingFee = (tax + subtotal) * 0.05;
     const total = subtotal + tax + processingFee;
+    const [run, setRun] = useState(false);
 
-    const deleteItem= index => {
+    useEffect(()=> {
+        setItems(getCart());
+        console.log(items);
+    }, [run]);
+
+    const deleteItem= (index) => {
         const newOrders = [...orders];
         newOrders.splice(index, 1);
         setOrders(newOrders);
+        
     }
 
-
     return <OrderStyled>
-    {orders.length === 0 ?<OrderContent>Your cart is empty...
+    {items.length === 0 ?<OrderContent>Your cart is empty...
         </OrderContent> : 
         <OrderContent>
             {" "}
             <OrderContainer>
-            You have {orders.length} item(s) in your cart.
+            You have {items.length} item(s) in your cart.
             </OrderContainer>
             {" "}
-            {orders.map((order, index) => (
+            {items.map((order, index) => (
                 <OrderContainer editable>
                     <OrderItem
                     onClick={() => {
-                        setOpenFood({...order, index})
+                        setOpenFood({...order, index});
+
                     }}
                     >
                         <div>{order.quantity}</div>
@@ -88,7 +133,7 @@ export function Order({orders, setOrders, setOpenFood}) {
                         style={{cursor: 'pointer'}} 
                         onClick={e =>{
                             e.stopPropagation();
-                            deleteItem(index)}}>🗑</div>
+                            deleteItem(index);removeItem(order._id);refreshPage()}}>🗑</div>
             <div>{formatPrice(getPrice(order))}</div>
                     </OrderItem>
                     <DetailItem>
@@ -134,5 +179,5 @@ export function Order({orders, setOrders, setOpenFood}) {
                 Checkout </Link>
             </ConfirmButton>
         </DialogFooter>
-    </OrderStyled>;
+    </OrderStyled>
 }

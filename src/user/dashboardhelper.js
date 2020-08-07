@@ -26,7 +26,8 @@ export function DashHelper({setCategoryWin, setProductWin, setProductUpdate}){
                     
                 </DashLabel>
                 </DashLink>
-            <DashLink><DashLabel>View Order</DashLabel></DashLink>
+            <DashLink >
+                <DashLabel>View Order</DashLabel></DashLink>
             <DashLink onClick={()=> {
                 setProductUpdate("Manage Product")
             }}><DashLabel>Manage Products</DashLabel></DashLink>

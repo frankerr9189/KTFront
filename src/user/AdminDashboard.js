@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Navbar} from '../Navar/Navbar';
 import {Banner} from "../Banner/Banner";
 import {GlobalStyle} from "../Styles/GlobalStyle";
@@ -6,56 +6,47 @@ import {FoodDialog, Dialog} from "../FoodDialog/FoodDialog";
 import styled from "styled-components";
 import {Title} from "../Styles/title";
 import {isAuthenticated} from "../auth";
-import {Link} from 'react-router-dom';
-import {Food, FoodGrid, FoodLabel} from "../Menu/FoodGrid";
 import {DashHelper} from "./dashboardhelper";
+import {CatDialog} from "./CategoryDialog";
+import {ProdDialog} from "./ProductDialog";
+import {ProdUpdateDialog} from "./ProductUpdate";
+import {Link} from 'react-router-dom';
+
+export const DialogContent = styled.div`
+overflow: auto; 
+height: 100px;
+padding-top: 150px;
+padding-bottom: 80px;
+`;
 
 
 const AdminDashboard =() => {
-
-    const {user} = isAuthenticated();
-
-    const userLinks = () =>{
-        return (
-            <div>
-                <h1>User Links</h1>
-                <ul>
-                    <Link className="nav-link" to="/profile/update">Update Profile</Link>
-                </ul>
-            </div>
-        )
-    }
-
-    const userInfo = () => {
-        return (
-<div>
-        <h3>User Information</h3>
-    <ul>
-    <li>Name: {user.name}</li>
-    <li>Email: {user.email} </li>
-    <li>Role: {user.role === 1? 'Admin' : "Registered User"}</li>
-     </ul>   
-</div>
-        )
-    }
+    const [categoryWin, setCategoryWin] =useState();
+    const [productWin, setProductWin] =useState();
+    const [productUpdate, setProductUpdate]=useState();
 
     return(
         <>
     <GlobalStyle/>
+    <CatDialog/>
     <FoodDialog/>
+    <CatDialog categoryWin={categoryWin} setCategoryWin={setCategoryWin}/>
+    <ProdDialog productWin={productWin} setProductWin={setProductWin}/>
+    <ProdUpdateDialog productUpdate={productUpdate} setProductUpdate={setProductUpdate}/>
     <Navbar/>
-    <Banner/>
-    <DashHelper/>
-    <div className="container-fluid"></div>
-    <div className="row">
-        <div className="col-3">
-            {userLinks()}
-        </div>
-        <div className="col-9">
-            {userInfo()}
-        </div>
-    </div>
+    <Banner>
+      <DialogContent>
+    <Link
+           style={{cursor: "pointer", color: "#ffffff"}}
+           className="nav-link" 
+           to="/"
+           >
+           Online Ordering
+           </Link>
+           </DialogContent>
+           </Banner>
+    <DashHelper setCategoryWin={setCategoryWin} setProductWin={setProductWin} setProductUpdate={setProductUpdate} />
    </>
-    )
+    );
 }
 export default AdminDashboard;

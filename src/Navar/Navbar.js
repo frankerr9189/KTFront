@@ -35,34 +35,41 @@ export function Navbar() {
         <Logo>
             Koastal-Technologies <span role="img" aria-label="KT">🍻</span>
 
-           {isAuthenticated() && isAuthenticated().user.role === 0 && (
+           {/* {isAuthenticated() && isAuthenticated().user.role === 0 && (
            <Link
            className="nav-link"
            to="/dashboard"
            >
            Dashboard
            </Link>
-           )}
+           )} */}
+           {'   '}
+           
 
            {isAuthenticated() && isAuthenticated().user.role === 1 && (
         <Link
             className="nav-link"
-            to="/admin/dashboard"
+            style={{cursor: "pointer", color: "#ffffff"}}
+            to="/admindash"
             >
            Dashboard
         </Link>
          )}
           
+          {'        '}
+          
             <LogoSignin>
                {!isAuthenticated() &&(
                    <Link
                    to="/signin">Sign-in</Link>
+                   
                )}
                 
 
             {isAuthenticated() && (
                 <Fragment>
             <li className="nav-item">
+            {"Hello "}{user.name}{"!    "}
                 <span
                 className="nav-link"
                 style={{cursor: "pointer", color: "#ffffff"}}
@@ -74,6 +81,7 @@ export function Navbar() {
                 >
                     Signout 
                 </span>
+                
             </li>
             </Fragment>
             )}

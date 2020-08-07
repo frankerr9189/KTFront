@@ -100,13 +100,9 @@ export function ProdDialog({productWin , setProductWin}){
     description,
     price,
     categories,
-    category,
-    shipping,
-    //quantity,
     loading,
     error,
     createdProduct,
-    redirectedToProfile,
     formData
     } = values;
 

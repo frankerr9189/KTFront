@@ -150,7 +150,11 @@ export function CheckoutStyled(){
                 items={product}
                 setRun={setRun}
                 run={run}
-                >{product.name} {" Qty: "} {product.quantity} {" "} {product.topping}{" $"}{product.price}</DetailItem>
+                >{product.name} {" Qty: "} {product.quantity} {" "} {product.toppings
+                    .filter(t => t.checked)
+                    .map(topping => topping.name)
+                    .join(", ")
+                    }{" $"}{getPrice(product).toFixed(2)}</DetailItem>
                 ))
                 }
             </div>
@@ -174,7 +178,10 @@ export function CheckoutStyled(){
         getToken(userId, token)
     }, []);
 
-    const buy= () => {
+    let deliveryMethod = values.method;
+
+
+    const buy = () => {
         // send nonce to your server
         //nonce= values.instance.requestPaymentMethod()
         let nonce;
@@ -198,13 +205,13 @@ export function CheckoutStyled(){
 
                const createOrderData = {
                     orderItems: items,
-                    ShipName: ShipName,
+                    ShipName: "Fran Kerr",
                     ShipEmail: ShipEmail,
                     ShipAddress: ShipAddress,
                     ShipCity: ShipCity,
                     ShipState: ShipState,
                     ShipZip: ShipZip,
-                    method: method,
+                    method: deliveryMethod,
                     subTotal: displaySubtotal,
                     taxPrice: displayTax,
                     processingFee: displayProcessingFee,
@@ -239,7 +246,7 @@ export function CheckoutStyled(){
 
     const showSuccess = success => (
         <div style={{ display: success ? '' : 'none' }}>
-            Thanks! Your payment was successful!
+            <h2>Thanks! Your payment was successful!</h2>
         </div>
     );
 
@@ -278,10 +285,8 @@ export function CheckoutStyled(){
 
      const handleMethod = event => {
         setValues({...values, method: event.target.value });
-        console.log(values);
     };
 
-    let methodSelection = values.method;
 
     const shippingMethod = () => (
         <div>
@@ -300,27 +305,27 @@ export function CheckoutStyled(){
         <form className="mb-3">
             <div className="form-group">
                 <label className="text-muted">Name: </label>
-                <input onChange={handleChange('ShipName')} type="text" className="form-control" value={ShipName}/>
+                <input onChange={handleChange('ShipName')} type="text" className="form-control" value={ShipName || ""}/>
             </div>
             <div className="form-group">
                 <label className="text-muted">Email: </label>
-                <input onChange={handleChange('ShipEmail')} type="text" className="form-control" value={ShipEmail}/>
+                <input onChange={handleChange('ShipEmail')} type="text" className="form-control" value={ShipEmail|| ""}/>
             </div>
             <div className="form-group">
                 <label className="text-muted">Address: </label>
-                <input onChange={handleChange('ShipAddress')} type="text" className="form-control" value={ShipAddress}/>
+                <input onChange={handleChange('ShipAddress')} type="text" className="form-control" value={ShipAddress||""}/>
             </div>
             <div className="form-group">
                 <label className="text-muted">City: </label>
-                <input onChange={handleChange('ShipCity')} type="text" className="form-control" value={ShipCity}/>
+                <input onChange={handleChange('ShipCity')} type="text" className="form-control" value={ShipCity||""}/>
             </div>
             <div className="form-group">
                 <label className="text-muted">State: </label>
-                <input onChange={handleChange('ShipState')} type="text" className="form-control" value={ShipState}/>
+                <input onChange={handleChange('ShipState')} type="text" className="form-control" value={ShipState||""}/>
             </div>
             <div className="form-group">
                 <label className="text-muted">Zip: </label>
-                <input onChange={handleChange('ShipZip')} type="text" className="form-control" value={ShipZip}/>
+                <input onChange={handleChange('ShipZip')} type="text" className="form-control" value={ShipZip||""}/>
             </div>
             {/* <button className="btn btn-outline-primary">Shipping</button> */}
         </form>
@@ -335,6 +340,7 @@ export function CheckoutStyled(){
         <CartBannerName>Summary, your cart has {`${items.length}`} items.</CartBannerName>
     </CartBanner>
         <CartContent>
+            {showSuccess(success)}
             {showItems(items)}
             <DetailItem>Sub-Total: {formatPrice(subtotal)} </DetailItem>
             <DetailItem>Tax: {formatPrice(tax)} </DetailItem>           

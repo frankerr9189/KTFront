@@ -6,9 +6,9 @@ import App from './App';
 import PrivateRoute from './auth/PrivateRoute';
 import AdminRoute from './auth/AdminRoute';
 import Dashboard from './user/UserDashboard';
-import BossDashboard from './user/BossDashboard';
+import AdminDashboard from './user/AdminDashboard';
 import Checkout from './user/Checkout';
-
+import AdminOrders from './user/AdminOrders';
 const Routes = () =>{
     return (
         <BrowserRouter>
@@ -18,7 +18,8 @@ const Routes = () =>{
             <Route path="/" exact component={App}/>
             <PrivateRoute path="/dashboard" exact component={Dashboard}/>
             <PrivateRoute path="/checkout" exact component={Checkout}/>
-            <AdminRoute path="/admin/dashboard" exact component={Dashboard}/>
+            <AdminRoute path="/admindash" exact component={AdminDashboard}/>
+            <AdminRoute path="/adminorders" exact component={AdminOrders}/>
         </Switch>
         </BrowserRouter>
     );

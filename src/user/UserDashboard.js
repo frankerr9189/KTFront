@@ -10,6 +10,14 @@ import {DashHelper} from "./dashboardhelper";
 import {CatDialog} from "./CategoryDialog";
 import {ProdDialog} from "./ProductDialog";
 import {ProdUpdateDialog} from "./ProductUpdate";
+import {Link} from 'react-router-dom';
+
+export const DialogContent = styled.div`
+overflow: auto; 
+height: 100px;
+padding-top: 150px;
+padding-bottom: 80px;
+`;
 
 
 const Dashboard =() => {
@@ -26,7 +34,17 @@ const Dashboard =() => {
     <ProdDialog productWin={productWin} setProductWin={setProductWin}/>
     <ProdUpdateDialog productUpdate={productUpdate} setProductUpdate={setProductUpdate}/>
     <Navbar/>
-    <Banner/>
+    <Banner>
+      <DialogContent>
+    <Link
+           style={{cursor: "pointer", color: "#ffffff"}}
+           className="nav-link" 
+           to="/"
+           >
+           Online Ordering
+           </Link>
+           </DialogContent>
+           </Banner>
     <DashHelper setCategoryWin={setCategoryWin} setProductWin={setProductWin} setProductUpdate={setProductUpdate} />
    </>
     );
