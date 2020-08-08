@@ -204,3 +204,24 @@ export const updateOrderStatus = (userId, token, orderId, status) => {
     })
     .catch(err=> console.log(err));
 };
+
+export const getBraintreeClientTokenGuest = () => {
+    return fetch(`${API}/braintree/getToken`, {
+        method: "GET",
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err=> console.log(err));
+};
+
+export const processPaymentGuest = (paymentData) => {
+    return fetch(`${API}/braintree/payment`, {
+        method: "POST",
+        body: JSON.stringify(paymentData)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err=> console.log(err));
+};

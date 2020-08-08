@@ -205,7 +205,7 @@ export function CheckoutStyled(){
 
                const createOrderData = {
                     orderItems: items,
-                    ShipName: "Fran Kerr",
+                    ShipName: ShipName,
                     ShipEmail: ShipEmail,
                     ShipAddress: ShipAddress,
                     ShipCity: ShipCity,
