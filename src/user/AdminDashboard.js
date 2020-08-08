@@ -10,7 +10,7 @@ import {DashHelper} from "./dashboardhelper";
 import {CatDialog} from "./CategoryDialog";
 import {ProdDialog} from "./ProductDialog";
 import {ProdUpdateDialog} from "./ProductUpdate";
-import {Link} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 
 export const DialogContent = styled.div`
 overflow: auto; 

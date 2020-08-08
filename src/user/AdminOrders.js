@@ -92,21 +92,6 @@ function AdminOrders() {
             }
         };
     
-        const showInput = (key, value) => (
-            <div className="input-group mb-2 mr-sm-2">
-                <div className="input-group-prepend">
-                    <div className="input-group-text">{key}
-                    </div>
-                </div>
-                <input 
-                type="text" 
-                value={value} 
-                className="form-control" 
-                readOnly>
-                </input>
-            </div>
-     );
-    
         const handleStatusChange = (e, orderId) => {
             updateOrderStatus(user._id, token, orderId, e.target.value).then(data => {
                 if(data.error){
@@ -175,6 +160,12 @@ function AdminOrders() {
                                             padding: '5px', 
                                             border: '1px solid indigo'}}>
                                             {('Product name', p.name)}
+                                            <div>
+                                            {p.toppings
+                    .filter(t => t.checked)
+                    .map(topping => topping.name)
+                    .join(", ")
+                    }</div>
                                         </div>
                                     ))}</StyledTableCell>
                                     <StyledTableCell align="right">{o.orderItems.map ((p, pIndex) => (
@@ -202,42 +193,6 @@ function AdminOrders() {
     <Banner/>
     {showOrdersLength()}
     {CustomizedTables()}
-                    {/* <Table striped bordered hover>                       
-                     <thead >
-                            <tr >
-                            <th>ID</th>
-                            <th>Date</th>
-                            <th>Name</th>
-                            <th>Total</th>
-                            <th>Delivery Method</th>
-                            <th>Status</th>
-                            <th>Items</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                {ordersToProcess.map((o, oIndex) => <tr key={oIndex}>
-                                    <td>{o._id}</td>
-                                    <td>{moment(o.createdAt).fromNow()}</td>
-                                    <td>{o.user.name}</td>
-                                    <td>{'$'}{o.totalPrice.toFixed(2)}</td>
-                                    <td>{o.method}</td>
-                                    <td>{showStatus(o)}</td>
-                                    <td>
-                                    {o.orderItems.map ((p, pIndex) => (
-                                        <div 
-                                        className="mb-4" 
-                                        key={pIndex} 
-                                        style={{
-                                            padding: '5px', 
-                                            border: '1px solid indigo'}}>
-                                            {showInput('Product name', p.name)}
-                                            {showInput('Product total', p.quantity)}
-                                        </div>
-                                    ))}
-                                    </td>
-                                </tr>)}
-                            </tbody>
-                    </Table>             */}
         );
    </>
   );

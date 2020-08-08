@@ -88,14 +88,14 @@ function Signin() {
     const redirectUser = () => {
         if(redirectToReferrer){
             if(user && user.role ===1){
-                return <Redirect to="/admin/dashboard"/>;
+                return <Redirect to="/admindash"/>;
             } else{
                 return <Redirect to="/"/>;
             }
         }
-        if(isAuthenticated()){
-         return <Redirect to="/" />;
-        }
+        // if(isAuthenticated()){
+        //  return <Redirect to="/" />;
+        // }
     };
 
 
