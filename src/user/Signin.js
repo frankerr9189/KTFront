@@ -8,6 +8,9 @@ import styled from "styled-components";
 import {Title} from "../Styles/title";
 import {signin, authenticate, isAuthenticated} from '../auth';
 
+function refreshPage() {
+    window.location.reload(false);
+  }
 
 export const SigninGrid = styled.div`
 display: grid;
@@ -50,6 +53,7 @@ function Signin() {
                         ...values,
                         redirectToReferrer: true
                     });
+                    refreshPage()
                 });
             }
         });

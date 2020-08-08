@@ -13,10 +13,13 @@ export function DashHelper({setCategoryWin, setProductWin, setProductUpdate, set
 
     const {user} = isAuthenticated();
 
-    const redirectUserOrder = () => {
+    const orderRedirect = () => {
+        console.log("redirect")
             if(user && user.role ===1){
+                console.log("/adminorders")
                 return <Redirect to="/adminorders"/>;
             } else{
+                console.log("/")
                 return <Redirect to="/"/>;
             }
     };
@@ -40,7 +43,7 @@ export function DashHelper({setCategoryWin, setProductWin, setProductUpdate, set
                 </DashLabel>
                 </DashLink>
                 <DashLink onClick={()=> {
-                setOrderReport("View Orders")
+                orderRedirect()
             }}>
                 <DashLabel> View Orders</DashLabel></DashLink>
             <DashLink onClick={()=> {

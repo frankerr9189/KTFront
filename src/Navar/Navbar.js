@@ -75,7 +75,7 @@ export function Navbar() {
                 style={{cursor: "pointer", color: "#ffffff"}}
                 onClick={() =>
                     signout(() => {
-                        history.push("/");
+                        history.push("/"); localStorage.clear();
                     })
                 }
                 >
