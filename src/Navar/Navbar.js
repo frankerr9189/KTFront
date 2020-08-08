@@ -69,7 +69,7 @@ export function Navbar() {
             {isAuthenticated() && (
                 <Fragment>
             <li className="nav-item">
-            {"Hello "}{user.name}{"!    "}
+            {"Hello "}{user && user.name}{"!    "}
                 <span
                 className="nav-link"
                 style={{cursor: "pointer", color: "#ffffff"}}
