@@ -3,7 +3,7 @@ import {useHistory} from 'react-router-dom'
 import styled from 'styled-components';
 import {seaBlue} from "../Styles/colors";
 import {Title} from "../Styles/title";
-import {Link, withRouter} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {signout, isAuthenticated} from "../auth";
 
 const NavbarStyled = styled.div`
