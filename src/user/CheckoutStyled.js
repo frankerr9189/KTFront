@@ -2,18 +2,16 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {formatPrice} from "../Data/FoodData";
 import {API} from "../config";
-import {isAuthenticated, signout} from '../auth';
+import {isAuthenticated} from '../auth';
 import {useOpenFood} from "../Hooks/useOpenFood";
 import {useOrders} from "../Hooks/useOrders";
 import {useTitle} from "../Hooks/useTitle";
-import {DialogContent, DialogFooter, DialogBanner, DialogBannerName, ConfirmButton} from "../FoodDialog/FoodDialog";
+import {DialogContent} from "../FoodDialog/FoodDialog";
 import {FoodLabel} from "../Menu/FoodGrid";
 import {getCart, emptyCart} from "../Cart/carthelper";
 import {getBraintreeClientToken, processPayment, createOrder} from "../admin/adminApi";
-import {Link} from "react-router-dom";
 import DropIn from 'braintree-web-drop-in-react';
 import {getPrice} from "../FoodDialog/FoodDialog";
-import {useHistory} from 'react-router-dom'
 
 export const FoodGrid = styled.div`
 display: grid;
