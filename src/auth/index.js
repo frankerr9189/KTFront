@@ -66,3 +66,19 @@ export const signup = user => {
      }
  };
 
+ export const guest = user => {
+    return fetch(`${API}/guest`,{
+         method: "POST",
+         headers:{
+             Accept: "application/json",
+             "Content-Type": "application/json"
+         },
+         body: JSON.stringify(user)
+     })
+     .then(response=> {
+         return response.json();
+     })
+     .catch(err=> {
+         console.log(err);
+     });
+ };

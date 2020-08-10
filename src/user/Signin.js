@@ -6,7 +6,7 @@ import {GlobalStyle} from "../Styles/GlobalStyle";
 import {FoodDialog} from "../FoodDialog/FoodDialog";
 import styled from "styled-components";
 import {Title} from "../Styles/title";
-import {signin, authenticate, isAuthenticated} from '../auth';
+import {signin, authenticate, isAuthenticated, guest} from '../auth';
 
 function refreshPage() {
     window.location.reload(false);

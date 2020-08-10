@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {DialogContent, DialogFooter, ConfirmButton} from "../FoodDialog/FoodDialog";
 import {formatPrice} from "../Data/FoodData";
@@ -13,7 +13,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import {signin, authenticate, isAuthenticated, guest} from '../auth';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -97,6 +97,40 @@ export function Order({orders, setOrders, setOpenFood}) {
     const processingFee = (tax + subtotal) * 0.05;
     const total = subtotal + tax + processingFee;
     const [run, setRun] = useState(false);
+    const [user, setUser] = useState({
+        email: "guest@guest.com",
+        password: "Franslk1",
+        error: "",
+        loading: false,
+        redirectToReferrer: false,
+    });
+
+    const {email, password, loading, error, redirectToReferrer} = user;
+
+    const clickSubmit = event => {
+        event.preventDefault();
+        setUser({...user, error: false, loading: true});
+        signin({email, password})
+        .then(data => {
+            if(data.error) {
+                setUser({...user, error: data.error, loading: false});
+            } else {
+                authenticate(data, () => {
+                    setUser({
+                        ...user,
+                        redirectToReferrer: true
+                    });
+                    refreshPage()
+                });
+            }
+        });
+    };
+
+    const redirectUser = () => {
+        if(redirectToReferrer){
+            return <Redirect to="/checkout"/>;
+        }
+    };
 
     useEffect(()=> {
         setItems(getCart());
@@ -178,6 +212,14 @@ export function Order({orders, setOrders, setOpenFood}) {
                 <Link to="/checkout">
                 Checkout </Link>
             </ConfirmButton>
+            <ConfirmButton>
+                <Link to="/checkout"
+                onClick={clickSubmit}
+                >
+                Guest Checkout </Link>
+                {redirectUser()}
+            </ConfirmButton>
+            
         </DialogFooter>
     </OrderStyled>
 }

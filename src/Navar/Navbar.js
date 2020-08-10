@@ -59,12 +59,12 @@ export function Navbar() {
           {'        '}
           
             <LogoSignin>
+                
                {!isAuthenticated() &&(
                    <Link
                    to="/signin">Sign-in</Link>
                    
                )}
-                
 
             {isAuthenticated() && (
                 <Fragment>

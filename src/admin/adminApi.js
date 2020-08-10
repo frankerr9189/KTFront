@@ -205,9 +205,14 @@ export const updateOrderStatus = (userId, token, orderId, status) => {
     .catch(err=> console.log(err));
 };
 
-export const getBraintreeClientTokenGuest = () => {
-    return fetch(`${API}/braintree/getToken`, {
+export const getBraintreeClientTokenGuest = (userId, token) => {
+    return fetch(`${API}/braintree/getTokenGuest`, {
         method: "GET",
+        headers:{
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
     })
     .then(response => {
         return response.json();
@@ -219,6 +224,17 @@ export const processPaymentGuest = (paymentData) => {
     return fetch(`${API}/braintree/payment`, {
         method: "POST",
         body: JSON.stringify(paymentData)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err=> console.log(err));
+};
+
+export const guestCreateOrder = (createOrderData) => {
+    return fetch(`${API}/order/create/guest`, {
+        method: "POST",
+        body: JSON.stringify({order: createOrderData})
     })
     .then(response => {
         return response.json();
