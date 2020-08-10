@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/frankerr9189/KT-Frontend.git/static/css/main.d498bfb3.chunk.css",
+    "main.js": "/frankerr9189/KT-Frontend.git/static/js/main.b520bf98.chunk.js",
+    "main.js.map": "/frankerr9189/KT-Frontend.git/static/js/main.b520bf98.chunk.js.map",
+    "runtime-main.js": "/frankerr9189/KT-Frontend.git/static/js/runtime-main.436a3151.js",
+    "runtime-main.js.map": "/frankerr9189/KT-Frontend.git/static/js/runtime-main.436a3151.js.map",
+    "static/js/2.ba0064b5.chunk.js": "/frankerr9189/KT-Frontend.git/static/js/2.ba0064b5.chunk.js",
+    "static/js/2.ba0064b5.chunk.js.map": "/frankerr9189/KT-Frontend.git/static/js/2.ba0064b5.chunk.js.map",
+    "index.html": "/frankerr9189/KT-Frontend.git/index.html",
+    "precache-manifest.b6d55a2eeec07a3a873fab580d9b3311.js": "/frankerr9189/KT-Frontend.git/precache-manifest.b6d55a2eeec07a3a873fab580d9b3311.js",
+    "service-worker.js": "/frankerr9189/KT-Frontend.git/service-worker.js",
+    "static/css/main.d498bfb3.chunk.css.map": "/frankerr9189/KT-Frontend.git/static/css/main.d498bfb3.chunk.css.map",
+    "static/js/2.ba0064b5.chunk.js.LICENSE.txt": "/frankerr9189/KT-Frontend.git/static/js/2.ba0064b5.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.436a3151.js",
+    "static/js/2.ba0064b5.chunk.js",
+    "static/css/main.d498bfb3.chunk.css",
+    "static/js/main.b520bf98.chunk.js"
+  ]
+}
