@@ -6,8 +6,6 @@ import styled from 'styled-components';
 import {isAuthenticated} from '../auth';
 import {listOrders, getStatusValues, updateOrderStatus} from "../admin/adminApi";
 import moment from 'moment';
-import {getPrice} from "../FoodDialog/FoodDialog";
-//import Table from 'react-bootstrap/Table'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
