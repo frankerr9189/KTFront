@@ -9,7 +9,6 @@ import Dashboard from './user/UserDashboard';
 import AdminDashboard from './user/AdminDashboard';
 import Checkout from './user/Checkout';
 import AdminOrders from './user/AdminOrders';
-import GuestCheckout from './user/GuestCheckout';
 
 const Routes = () =>{
     return (
@@ -18,7 +17,6 @@ const Routes = () =>{
             <Route path="/signin" exact component={Signin}/>
             <Route path="/signup" exact component={Signup}/>
             <Route path="/" exact component={App}/>
-            <Route path="/guestcheckout" exact component={GuestCheckout}/>
             <PrivateRoute path="/dashboard" exact component={Dashboard}/>
             <PrivateRoute path="/checkout" exact component={Checkout}/>
             <AdminRoute path="/admindash" exact component={AdminDashboard}/>
