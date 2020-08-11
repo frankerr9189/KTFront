@@ -7,6 +7,7 @@ import {API} from "../config";
 
 const MenuStyled = styled.div`
     height: 1000px;
+    width: 72%;
     margin: 0px 400px 50px 20px;
 `
 

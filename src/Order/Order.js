@@ -6,13 +6,27 @@ import {formatPrice} from "../Data/FoodData";
 import {getPrice} from "../FoodDialog/FoodDialog";
 import {removeItem, getCart} from "../Cart/carthelper";
 import {signin, authenticate} from '../auth';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
-  
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
+  }));
+
+
 const OrderStyled = styled.div`
 position: fixed;
 right: 0px;
 top: 57px;
-width: calc(27% - 48px);
+width: 25%;
 background-color: white;
 height: calc(100% - 48px);
 z-index: 10;
@@ -23,7 +37,10 @@ flex-direction: column;
 
 const OrderContent = styled(DialogContent)`
 padding: 20px;
-height: 100%
+height: 100%;
+width: calc(100% - 48px);
+display: flex;
+flex-direction: column;
 `;
 
 const OrderContainer = styled.div`
@@ -46,11 +63,14 @@ const OrderItem = styled.div`
     display: grid;
     grid-template-columns: 20px 150px 20px 60px;
     justify-content: space-between;
+    width = 100%;
 `;
 
 const DetailItem = styled.div`
     color: gray;
     font-size: 10px;
+    display: flex;
+flex-direction: column;
 `
 
 function refreshPage() {
@@ -73,6 +93,7 @@ export function Order({orders, setOrders, setOpenFood}) {
         loading: false,
         redirectToReferrer: false,
     });
+    const classes = useStyles(); 
 
     const {email, password, loading, error, redirectToReferrer} = user;
 
@@ -124,21 +145,33 @@ export function Order({orders, setOrders, setOpenFood}) {
             {" "}
             {items.map((order, index) => (
                 <OrderContainer editable>
-                    <OrderItem
+                    {/* <OrderItem
                     onClick={() => {
                         setOpenFood({...order, index});
 
                     }}
-                    >
-                        <div>{order.quantity}</div>
-                        <div>{order.name}</div>
-                        <div 
+                    > */}
+                        <div editable
+                        onClick={() => {
+                            setOpenFood({...order, index});
+    
+                        }}
+                        className={classes.root}>
+                        <Grid container spacing={4}>
+                        <Grid item xs>
+                        {order.quantity}</Grid>
+                        <Grid item xs>
+                        {order.name}</Grid>
+                        <Grid item xs 
                         style={{cursor: 'pointer'}} 
                         onClick={e =>{
                             e.stopPropagation();
-                            deleteItem(index);removeItem(order._id);refreshPage()}}>🗑</div>
-            <div>{formatPrice(getPrice(order))}</div>
-                    </OrderItem>
+                            deleteItem(index);removeItem(order._id);refreshPage()}}>🗑</Grid>
+            <Grid item xs>
+            {formatPrice(getPrice(order))}</Grid>
+            </Grid>
+            </div>
+                    {/* </OrderItem> */}
                     <DetailItem>
                         {order.toppings
                         .filter(t => t.checked)
