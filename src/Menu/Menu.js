@@ -4,6 +4,19 @@ import {getProducts} from "../admin/adminApi";
 import {Food, FoodGrid, FoodLabel} from "./FoodGrid";
 import {formatPrice} from "../Data/FoodData";
 import {API} from "../config";
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
+  }));
 
 const MenuStyled = styled.div`
     height: 1000px;
@@ -14,6 +27,7 @@ const MenuStyled = styled.div`
 export function Menu({setOpenFood}){
     const [loadProducts, setLoadProducts] = useState([]);
     const [error, setError] = useState(false);
+    const classes = useStyles(); 
 
     const loadAllProducts = () => {
         getProducts().then(data=>{
@@ -45,6 +59,7 @@ export function Menu({setOpenFood}){
         {Object.entries(foods).map(([sectionName, foods]) => (
             <>
         <h1>{sectionName}</h1>
+        
         <FoodGrid>
         {foods.map((food, findex) => (
             <Food key={findex} img={`${API}/product/photo/${food._id}`} onClick={()=>{

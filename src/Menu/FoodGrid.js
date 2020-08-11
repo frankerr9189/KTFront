@@ -7,6 +7,7 @@ grid-template-columns: 1fr 1fr;
 gap: 20px;
 padding-bottom: 40px;
 `;
+
 export const FoodLabel = styled(Title)`
 position: absolute;
 background-color: rgba(255, 255, 255, .75);
