@@ -12,7 +12,7 @@ const OrderStyled = styled.div`
 position: fixed;
 right: 0px;
 top: 57px;
-width: 340px;
+width: calc(27% - 48px);
 background-color: white;
 height: calc(100% - 48px);
 z-index: 10;
