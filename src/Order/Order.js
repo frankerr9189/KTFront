@@ -25,7 +25,7 @@ const OrderStyled = styled.div`
 position: fixed;
 right: 0px;
 top: 57px;
-width: 25%;
+width: 30%;
 background-color: white;
 height: calc(100% - 48px);
 z-index: 10;

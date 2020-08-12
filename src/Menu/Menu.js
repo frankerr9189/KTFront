@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MenuStyled = styled.div`
     height: 1000px;
-    width: 72%;
+    width: 65%;
     margin: 0px 400px 50px 20px;
 `
 
