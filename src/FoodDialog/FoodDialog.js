@@ -89,8 +89,8 @@ background-color: grey;
 pointer-events: none;
 `}
 @media (max-width: 700px){
-width: 40%
-padding: 10px;
+width: 30%
+padding: 5px;
 }
 `;
 

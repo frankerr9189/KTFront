@@ -23,7 +23,7 @@ const MenuStyled = styled.div`
     width: 65%;
     margin: 0px 400px 50px 20px;
     @media (max-width: 700px){
-width: 60%    }
+width: 50%    }
 `
 
 export function Menu({setOpenFood}){
