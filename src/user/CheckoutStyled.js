@@ -84,6 +84,8 @@ const PaymentStyled = styled.div`
 box-shadow: 4px 0px 5px 4px grey;
 display: flex;
 flex-direction: column;
+@media (max-width: 700px){
+    width: 350px;}
 `
 const ShippingBox = styled.div`
     height: 400px;
