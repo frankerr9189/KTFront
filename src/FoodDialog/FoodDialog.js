@@ -89,7 +89,7 @@ background-color: grey;
 pointer-events: none;
 `}
 @media (max-width: 700px){
-width: 30%
+width: 25%
 padding: 5px;
 }
 `;
