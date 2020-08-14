@@ -90,7 +90,6 @@ pointer-events: none;
 `}
 @media (max-width: 700px){
 width: 25%
-padding: 3px;
 }
 `;
 
