@@ -219,7 +219,7 @@ export function Order({orders, setOrders, setOpenFood}) {
                 <Link to="/checkout"
                 onClick={clickSubmit}
                 >
-                Guest Checkout </Link>
+                Guest </Link>
                 {redirectUser()}
             </ConfirmButton>
             
