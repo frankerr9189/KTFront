@@ -1,4 +1,6 @@
 import React from 'react';
+import {Provider} from 'react-redux'
+import {store} from '../store'
 import {Navbar} from '../Navar/Navbar';
 import {Banner} from "../Banner/Banner";
 import {GlobalStyle} from "../Styles/GlobalStyle";
@@ -25,6 +27,8 @@ function Checkout() {
 
   return (
     <>
+        <Provider store={store}>
+
     <GlobalStyle/>
     <FoodDialog {...openFood}{...orders}/>
     <Navbar/>
@@ -40,6 +44,7 @@ function Checkout() {
            </DialogContent>
            </Banner>
     <CheckoutStyled/>
+    </Provider>
    </>
   );
 }

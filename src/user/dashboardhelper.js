@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import {DashLinkGrid, DashLink, DashLabel} from './dashlinkhelper';
-import {signin, authenticate, isAuthenticated} from '../auth';
-import {Redirect, Link} from 'react-router-dom';
+import {isAuthenticated} from '../auth';
+import {Redirect} from 'react-router-dom';
 
 const DashStyled = styled.div`
     height: 500px;

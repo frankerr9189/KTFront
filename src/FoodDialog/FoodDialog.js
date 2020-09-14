@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import {useDispatch, useSelector} from 'react-redux'
+import * as actions from '../actionTypes';
 import styled from 'styled-components';
 import {FoodLabel} from "../Menu/FoodGrid";
 import {seaBlue} from '../Styles/colors';
@@ -10,8 +12,8 @@ import {Toppings} from "./Toppings";
 import {useToppings} from "../Hooks/useToppings";
 import {useChoice} from "../Hooks/useChoice";
 import {Choices} from "./Choices";
-import {addItem, updateItem} from "../Cart/carthelper";
 import {API} from "../config";
+
 
 export const Dialog = styled.div`
     width: 500px;
@@ -98,10 +100,14 @@ function hasToppings(food){
 }
 
 function FoodDialogContainer({openFood, setOpenFood, setOrders, orders}){
+    const dispatch = useDispatch();
+    const cart = useSelector((state)=>state.cart);
     const quantity = useQuantity (openFood && openFood.quantity);
     const toppings = useToppings(openFood.toppings);
     const choiceRadio = useChoice(openFood.choice);
     const isEditing = openFood.index > -1;
+
+    useEffect(()=>{console.log(cart)},[cart])
 
     function close() {
         setOpenFood();
@@ -117,7 +123,6 @@ function FoodDialogContainer({openFood, setOpenFood, setOrders, orders}){
     function editOrder(){
         const newOrders = [...orders];
         newOrders[order.index] = order;
-        updateItem(newOrders[order.index]._id, quantity);//not working
         setOrders(newOrders);
         close();
         refreshPage();
@@ -125,10 +130,9 @@ function FoodDialogContainer({openFood, setOpenFood, setOrders, orders}){
 
     function addToOrder(){
         setOrders([...orders, order]);
-        addItem(order);
-        console.log(order);
+        dispatch({type: actions.ADD_PRODUCT_TO_CART, payload: order})
+        // console.log(order);
         close();
-        refreshPage();
     }
     return (
     <>

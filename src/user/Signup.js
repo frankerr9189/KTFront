@@ -6,7 +6,7 @@ import {GlobalStyle} from "../Styles/GlobalStyle";
 import {FoodDialog} from "../FoodDialog/FoodDialog";
 import styled from "styled-components";
 import {Title} from "../Styles/title";
-import {signup, authenticate, isAuthenticated} from '../auth';
+import {signup} from '../auth';
 
 export const SigninGrid = styled.div`
 display: grid;

@@ -145,7 +145,7 @@ export const processPayment = (userId, token, paymentData) => {
     .catch(err=> console.log(err));
 };
 
-export const createOrder = (userId, token, createOrderData) => {
+export const createOrder = (userId, token, orderData, stripeDataObject) => {
     return fetch(`${API}/order/create/${userId}`, {
         method: "POST",
         headers:{
@@ -153,7 +153,7 @@ export const createOrder = (userId, token, createOrderData) => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({order: createOrderData})
+        body: JSON.stringify({order: orderData, payment: stripeDataObject})
     })
     .then(response => {
         return response.json();

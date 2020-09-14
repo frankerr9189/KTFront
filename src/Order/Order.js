@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {Redirect, Link} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import * as actions from '../actionTypes';
 import styled from 'styled-components';
 import {DialogContent, DialogFooter, ConfirmButton} from "../FoodDialog/FoodDialog";
 import {formatPrice} from "../Data/FoodData";
 import {getPrice} from "../FoodDialog/FoodDialog";
-import {removeItem, getCart} from "../Cart/carthelper";
 import {signin, authenticate} from '../auth';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -80,13 +81,15 @@ function refreshPage() {
 
 export function Order({orders, setOrders, setOpenFood}) {
     const [items, setItems] = useState([]);
-    const subtotal = items.reduce((total, order) => {
+    const dispatch = useDispatch();
+    const cart = useSelector((state)=>state.cart);
+    const subtotal = cart.reduce((total, order) => {
         return total + getPrice(order);
     }, 0);
     const tax = subtotal * 0.07;
     const processingFee = (tax + subtotal) * 0.05;
     const total = subtotal + tax + processingFee;
-    const [run, setRun] = useState(false);
+    // const [run, setRun] = useState(false);
     const [user, setUser] = useState({
         email: "guest@guest.com",
         password: "Franslk1",
@@ -111,7 +114,6 @@ export function Order({orders, setOrders, setOpenFood}) {
                         ...user,
                         redirectToReferrer: true
                     });
-                    refreshPage()
                 });
             }
         });
@@ -123,28 +125,26 @@ export function Order({orders, setOrders, setOpenFood}) {
         }
     };
 
-    useEffect(()=> {
-        setItems(getCart());
-        console.log(items);
-    }, [run]);
-
     const deleteItem= (index) => {
         const newOrders = [...orders];
         newOrders.splice(index, 1);
         setOrders(newOrders);
-        
+    };
+
+    const removeReduxItem = (product) => {
+        dispatch({type: actions.RMV_PRODUCT_FROM_CART, payload: product})
     }
 
     return <OrderStyled>
-    {items.length === 0 ?<OrderContent>Your cart is empty...
+    {cart.length === 0 ?<OrderContent>Your cart is empty...
         </OrderContent> : 
         <OrderContent>
             {" "}
             <OrderContainer>
-            You have {items.length} item(s) in your cart.
+            You have {cart.length} item(s) in your cart.
             </OrderContainer>
             {" "}
-            {items.map((order, index) => (
+            {cart.map((order, index) => (
                 <OrderContainer editable>
                     {/* <OrderItem
                     onClick={() => {
@@ -152,7 +152,7 @@ export function Order({orders, setOrders, setOpenFood}) {
 
                     }}
                     > */}
-                        <div editable
+                    <div editable
                         onClick={() => {
                             setOpenFood({...order, index});
     
@@ -167,7 +167,7 @@ export function Order({orders, setOrders, setOpenFood}) {
                         style={{cursor: 'pointer'}} 
                         onClick={e =>{
                             e.stopPropagation();
-                            deleteItem(index);removeItem(order._id);refreshPage()}}>🗑</Grid>
+                            deleteItem(index);removeReduxItem(order._id)}}>🗑</Grid>
             <Grid item xs>
             {formatPrice(getPrice(order))}</Grid>
             </Grid>

@@ -1,4 +1,6 @@
 import React from 'react';
+import {Provider} from 'react-redux'
+import {store} from './store'
 import {Navbar} from './Navar/Navbar';
 import {Banner} from "./Banner/Banner";
 import {Menu} from "./Menu/Menu";
@@ -8,6 +10,8 @@ import {Order} from "./Order/Order";
 import {useOpenFood} from "./Hooks/useOpenFood";
 import {useOrders} from "./Hooks/useOrders";
 import {useTitle} from "./Hooks/useTitle";
+import { ThemeProvider } from '@material-ui/styles';
+import theme from './constants/theme';
 
 function App() {
   const openFood = useOpenFood();
@@ -16,12 +20,16 @@ function App() {
   
   return (
     <>
+    <Provider store={store}>
+    <ThemeProvider theme={theme}>
     <GlobalStyle/>
     <FoodDialog {...openFood}{...orders}/>
     <Navbar/>
     <Order {...orders} {...openFood}/>
     <Banner/>
     <Menu {...openFood}/>   
+    </ThemeProvider>
+   </Provider>
    </>
   );
 }

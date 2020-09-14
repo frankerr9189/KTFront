@@ -12,6 +12,14 @@ import {getCart, emptyCart} from "../Cart/carthelper";
 import {getBraintreeClientToken, processPayment, createOrder} from "../admin/adminApi";
 import DropIn from 'braintree-web-drop-in-react';
 import {getPrice} from "../FoodDialog/FoodDialog";
+import {useDispatch, useSelector} from 'react-redux';
+import * as actions from '../actionTypes';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from '../constants/theme';
+import Header from "../views/Header";
+import Footer from "../views/Footer";
+import Main from "../views/Main";
+import { StateProvider } from "../StateContext";
 
 export const FoodGrid = styled.div`
 display: grid;
@@ -87,14 +95,7 @@ flex-direction: column;
 @media (max-width: 700px){
     width: 350px;}
 `
-const ShippingBox = styled.div`
-    height: 400px;
-    width: 500px;
-    z-index: 10;
-box-shadow: 4px 0px 5px 4px grey;
-display: flex;
-flex-direction: column;
-`
+
 
 
 export function CheckoutStyled(){ 
@@ -102,8 +103,9 @@ export function CheckoutStyled(){
     const orders = useOrders();
     useTitle({...openFood, ...orders});
     const [items, setItems] = useState([]);
+    const cart = useSelector((state)=>state.cart);
     const [run, setRun] = useState(false);
-    const subtotal = items.reduce((total, items) => {
+    const subtotal = cart.reduce((total, items) => {
         return total + getPrice(items);
     }, 0);
     const displaySubtotal = subtotal.toFixed(2);
@@ -135,17 +137,18 @@ export function CheckoutStyled(){
         }
     );
 
-    const {success, orderItems, ShipName, ShipEmail, ShipAddress, ShipCity, ShipState, ShipZip, method, subTotal, processingFee, taxPrice, totalPrice} = values;
+    const {success, ShipName, ShipEmail, ShipAddress, ShipCity, ShipState, ShipZip} = values;
 
-    useEffect(()=> {
-        setItems(getCart());
-    }, [run]);
+    // useEffect(()=> {
+    //     setItems(getCart());
+    // }, [run]);
     
-    const showItems = items => {
+    const showItems = () => {
+        console.log('Cart'+ cart)
         return(
             <div onBlur={()=> setValues({...values, error:""})}>
                 <hr/>
-                {items.map((product, i)=> (
+                {cart.map((product, i)=> (
                 <DetailItem 
                 key ={i} 
                 items={product}
@@ -205,7 +208,7 @@ export function CheckoutStyled(){
                 //empty cart & create order
 
                const createOrderData = {
-                    orderItems: items,
+                    orderItems: cart,
                     ShipName: ShipName,
                     ShipEmail: ShipEmail,
                     ShipAddress: ShipAddress,
@@ -213,13 +216,13 @@ export function CheckoutStyled(){
                     ShipState: ShipState,
                     ShipZip: ShipZip,
                     method: deliveryMethod,
-                    subTotal: displaySubtotal,
-                    taxPrice: displayTax,
-                    processingFee: displayProcessingFee,
-                    totalPrice: displayTotal
+                    subTotal: null,
+                    taxPrice: null,
+                    processingFee: null,
+                    totalPrice: null
                 };
 
-                createOrder(userId, token, createOrderData)
+                createOrder(userId, token, createOrderData, paymentData)
                 .then(response => {
                     emptyCart(() => {
                         console.log('payment success and empty cart');
@@ -252,10 +255,10 @@ export function CheckoutStyled(){
         </div>
     );
 
-    const showDropIn= () => (
+    const showDropIn = () => (
         <div onBlur={() => setValues({ ...values, error: '' })}>
             
-            {values.clientToken !== null && items.length>0 ? (
+            {values.clientToken !== null && cart.length>0 ? (
                 <div>
                     <DropIn
                         options={{
@@ -279,11 +282,11 @@ export function CheckoutStyled(){
         setValues({...values, [name]: value});
     };
 
-    const clickSubmit = event => {
-        event.preventDefault();
-        setValues({...values});
-        console.log((values));
-     };
+    // const clickSubmit = event => {
+    //     event.preventDefault();
+    //     setValues({...values});
+    //     console.log((values));
+    //  };
 
      const handleMethod = event => {
         setValues({...values, method: event.target.value });
@@ -339,11 +342,11 @@ export function CheckoutStyled(){
         <CartStyled>
     <CartContainer>
     <CartBanner img={`${API}/product/photo/shark.jpeg`}>
-        <CartBannerName>Summary, your cart has {`${items.length}`} items.</CartBannerName>
+        <CartBannerName>Summary, your cart has {`${cart.length}`} items.</CartBannerName>
     </CartBanner>
         <CartContent>
             {showSuccess(success)}
-            {showItems(items)}
+            {showItems()}
             <DetailItem>Sub-Total: {formatPrice(subtotal)} </DetailItem>
             <DetailItem>Tax: {formatPrice(tax)} </DetailItem>           
             <DetailItem>Processing Fee: {formatPrice(processingFeeN)} </DetailItem>
@@ -353,16 +356,23 @@ export function CheckoutStyled(){
     </CartStyled>
 
     <PaymentStyled>
-    <CartBanner>
+    {/* <CartBanner>
     <CartBannerName>Delivery Address</CartBannerName>
     </CartBanner>
         {shippingMethod()}
-        {shippingForm()}
-    <CartBanner>
-            <CartBannerName>Payment Method</CartBannerName></CartBanner>
+        {shippingForm()} */}
+    {/* <CartBanner>
+            <CartBannerName>Payment Method</CartBannerName></CartBanner> */}
             {showSuccess(values.success)}
             {showError(values.error)}
-            {showDropIn()}
+            {/* {showDropIn()} */}
+            <StateProvider>
+     <ThemeProvider theme={theme}>
+          <Header />
+          <Main />
+          <Footer />
+     </ThemeProvider>
+</StateProvider>
     </PaymentStyled>
     </FoodGrid>
     </>

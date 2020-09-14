@@ -43,7 +43,6 @@ export function Menu({setOpenFood}){
 
     useEffect(()=>{
         loadAllProducts()
-        
     }, []);
 
     useEffect(()=>{console.log(loadProducts)}, [loadProducts])

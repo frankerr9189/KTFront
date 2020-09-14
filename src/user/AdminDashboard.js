@@ -2,15 +2,13 @@ import React, {useState} from 'react';
 import {Navbar} from '../Navar/Navbar';
 import {Banner} from "../Banner/Banner";
 import {GlobalStyle} from "../Styles/GlobalStyle";
-import {FoodDialog, Dialog} from "../FoodDialog/FoodDialog";
+import {FoodDialog} from "../FoodDialog/FoodDialog";
 import styled from "styled-components";
-import {Title} from "../Styles/title";
-import {isAuthenticated} from "../auth";
 import {DashHelper} from "./dashboardhelper";
 import {CatDialog} from "./CategoryDialog";
 import {ProdDialog} from "./ProductDialog";
 import {ProdUpdateDialog} from "./ProductUpdate";
-import {Redirect, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 export const DialogContent = styled.div`
 overflow: auto; 

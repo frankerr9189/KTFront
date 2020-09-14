@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { DashLabel } from './dashlinkhelper';
-import {Link} from 'react-router-dom';
 import {seaBlue} from '../Styles/colors';
 import {Title} from '../Styles/title';
 import {getProducts, deleteProduct} from '../admin/adminApi';
