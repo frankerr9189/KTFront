@@ -142,16 +142,16 @@ export function ProdUpdateDialog({productUpdate , setProductUpdate}){
                     <thead>
                         <tr>
                         <th>Product Name</th>
-                        <th>Update</th>
+                        {/* <th>Update</th> */}
                         <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
                             {products.map((p, i) => <tr key={i}>
                                 <td>{p.name}</td>
-                                <td>
+                                {/* <td>
                                     <UpdateButton>Update</UpdateButton>
-                                </td>
+                                </td> */}
                                 <td>
                                 <span onClick={()=> destroy(p._id)} className="badge badge-danger badge-pill">
                                    <DeleteConfirmButton> Delete</DeleteConfirmButton>

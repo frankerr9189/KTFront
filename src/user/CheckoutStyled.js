@@ -8,18 +8,12 @@ import {useOrders} from "../Hooks/useOrders";
 import {useTitle} from "../Hooks/useTitle";
 import {DialogContent} from "../FoodDialog/FoodDialog";
 import {FoodLabel} from "../Menu/FoodGrid";
-import {getCart, emptyCart} from "../Cart/carthelper";
-import {getBraintreeClientToken, processPayment, createOrder} from "../admin/adminApi";
-import DropIn from 'braintree-web-drop-in-react';
 import {getPrice} from "../FoodDialog/FoodDialog";
 import {useDispatch, useSelector} from 'react-redux';
-import * as actions from '../actionTypes';
-import { ThemeProvider } from '@material-ui/styles';
-import theme from '../constants/theme';
-import Header from "../views/Header";
-import Footer from "../views/Footer";
-import Main from "../views/Main";
-import { StateProvider } from "../StateContext";
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe('pk_test_51HJqHJGl9xwp0fdrtqsR98zycaHBM0a6V6ZzsUL5uC3utm8Y2yHigTStkr2lH8F4nW2R3BCb2CEj9S4yMTLyFEv900l6GU6XRb', {
+    stripeAccount: "acct_1HRNLcDQrRsPJFuN"
+  });
 
 export const FoodGrid = styled.div`
 display: grid;
@@ -134,15 +128,60 @@ export function CheckoutStyled(){
     taxPrice: "",
     processingFee:"",
     totalPrice: "",
+    sessionData: "",
         }
     );
 
-    const {success, ShipName, ShipEmail, ShipAddress, ShipCity, ShipState, ShipZip} = values;
+    const {success, ShipName, ShipEmail, ShipAddress, ShipCity, ShipState, ShipZip, sessionData} = values;
 
     // useEffect(()=> {
     //     setItems(getCart());
     // }, [run]);
     
+    const handleClick = async (event) => {
+
+        const createOrderData = {
+            orderItems: cart,
+            ShipName: ShipName,
+            ShipEmail: ShipEmail,
+            ShipAddress: ShipAddress,
+            ShipCity: ShipCity,
+            ShipState: ShipState,
+            ShipZip: ShipZip,
+            method: deliveryMethod,
+            subTotal: null,
+            taxPrice: null,
+            processingFee: null,
+            totalPrice: null,
+            sessionData: null,
+        };
+        console.log(createOrderData);
+        // Get Stripe.js instance
+        const stripe = await stripePromise;
+    
+        // Call your backend to create the Checkout Session
+        const response = await fetch(`${API}/create-checkout-session/`, 
+        { method: 'POST', 
+          headers:{
+            Accept: 'application/json',
+            'Content-Type': 'application/json',        },
+          body: JSON.stringify({order: createOrderData})
+    });
+    
+        const session = await response.json();
+        
+        // When the customer clicks on the button, redirect them to Checkout.
+        const result = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
+    
+        if (result.error) {
+          // If `redirectToCheckout` fails due to a browser or network
+          // error, display the localized error message to your customer
+          // using `result.error.message`.
+        } 
+      };
+
     const showItems = () => {
         console.log('Cart'+ cart)
         return(
@@ -166,82 +205,9 @@ export function CheckoutStyled(){
     };
 
     const userId = isAuthenticated() && isAuthenticated().user._id;
-    const token = isAuthenticated() && isAuthenticated().token;
-
-    const getToken = (userId, token) => {
-        getBraintreeClientToken(userId, token).then(values => {
-            if(values.error) {
-                setValues({...values, error: values.error})
-            }else{
-                setValues({clientToken: values.clientToken})
-            }
-        })
-    };
-
-    useEffect(()=>{
-        getToken(userId, token)
-    }, []);
 
     let deliveryMethod = values.method;
 
-
-    const buy = () => {
-        // send nonce to your server
-        //nonce= values.instance.requestPaymentMethod()
-        let nonce;
-        let getNonce = values.instance
-        .requestPaymentMethod()
-        .then( values => {
-           // console.log(values)
-            nonce = values.nonce;
-            //once you have nonce (card type, card number) send nonce as "paymentMethodNonce"
-            //and also total to be charged
-            //console.log('send nonce and total to process: ', nonce, total)
-        const paymentData ={
-            paymentMethodNonce: nonce,
-            amount: displayTotal
-        }
-
-        processPayment(userId, token, paymentData)
-        .then(response=> {
-            console.log(values);
-                //empty cart & create order
-
-               const createOrderData = {
-                    orderItems: cart,
-                    ShipName: ShipName,
-                    ShipEmail: ShipEmail,
-                    ShipAddress: ShipAddress,
-                    ShipCity: ShipCity,
-                    ShipState: ShipState,
-                    ShipZip: ShipZip,
-                    method: deliveryMethod,
-                    subTotal: null,
-                    taxPrice: null,
-                    processingFee: null,
-                    totalPrice: null
-                };
-
-                createOrder(userId, token, createOrderData, paymentData)
-                .then(response => {
-                    emptyCart(() => {
-                        console.log('payment success and empty cart');
-                        setValues({
-                            success: true
-                        });
-                        localStorage.clear();
-                    });
-                })
-                .catch(error => console.log(error));
-        });
-    })
-    .catch(error => {
-            console.log('drop in error: ', error)
-            setValues({...values, error: error.message});
-            //empty cart
-            //create order
-        });
-    };
 
     const showError = error => (
         <div style={{ display: values.error ? '' : 'none' }}>
@@ -255,38 +221,10 @@ export function CheckoutStyled(){
         </div>
     );
 
-    const showDropIn = () => (
-        <div onBlur={() => setValues({ ...values, error: '' })}>
-            
-            {values.clientToken !== null && cart.length>0 ? (
-                <div>
-                    <DropIn
-                        options={{
-                            authorization: values.clientToken,
-                            paypal: {
-                                flow: 'vault'
-                            }
-                        }}
-                        onInstance={instance => (values.instance = instance)}
-                    />
-                    <button onClick={buy} className="btn-block">
-                        Pay
-                    </button>
-                </div>
-            ) : null}
-        </div>
-    );
-
     const handleChange = name => event => {
         const value = name === 'name' ? event.target.files[0]: event.target.value;
         setValues({...values, [name]: value});
     };
-
-    // const clickSubmit = event => {
-    //     event.preventDefault();
-    //     setValues({...values});
-    //     console.log((values));
-    //  };
 
      const handleMethod = event => {
         setValues({...values, method: event.target.value });
@@ -356,23 +294,11 @@ export function CheckoutStyled(){
     </CartStyled>
 
     <PaymentStyled>
-    {/* <CartBanner>
-    <CartBannerName>Delivery Address</CartBannerName>
-    </CartBanner>
         {shippingMethod()}
-        {shippingForm()} */}
-    {/* <CartBanner>
-            <CartBannerName>Payment Method</CartBannerName></CartBanner> */}
-            {showSuccess(values.success)}
-            {showError(values.error)}
-            {/* {showDropIn()} */}
-            <StateProvider>
-     <ThemeProvider theme={theme}>
-          <Header />
-          <Main />
-          <Footer />
-     </ThemeProvider>
-</StateProvider>
+        {shippingForm()}
+            <button role="link" onClick={handleClick}>
+      Checkout
+    </button>
     </PaymentStyled>
     </FoodGrid>
     </>

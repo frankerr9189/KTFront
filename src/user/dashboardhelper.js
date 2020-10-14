@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {DashLinkGrid, DashLink, DashLabel} from './dashlinkhelper';
 import {isAuthenticated} from '../auth';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Router} from 'react-router-dom';
 
 const DashStyled = styled.div`
     height: 500px;
@@ -17,7 +17,7 @@ export function DashHelper({setCategoryWin, setProductWin, setProductUpdate, set
         console.log("redirect")
             if(user && user.role ===1){
                 console.log("/adminorders")
-                return <Redirect to="/adminorders"/>;
+                return <Redirect to="/adminorders" />;
             } else{
                 console.log("/")
                 return <Redirect to="/"/>;
@@ -49,7 +49,8 @@ export function DashHelper({setCategoryWin, setProductWin, setProductUpdate, set
             <DashLink onClick={()=> {
                 setProductUpdate("Manage Product")
             }}><DashLabel>Manage Products</DashLabel></DashLink>
-            <DashLink><DashLabel>User Information</DashLabel></DashLink>
+            <DashLink>
+                <DashLabel>User Information</DashLabel></DashLink>
             </DashLinkGrid>
 </>
     </DashStyled>

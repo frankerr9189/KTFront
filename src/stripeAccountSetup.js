@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import {API} from "./config";
-
+import InputKeyValue from './InputKeyValue';
 
 class stripeAccount extends Component {
   constructor(props) {
@@ -9,20 +9,48 @@ class stripeAccount extends Component {
 
     this.state = {
       setupBegan: false,
-      isLoadingFieldsNeeded: true,
+      isLoading: true,
       error: null,
+      account: null,
+      fieldsNeededForm: {}
     };
-
-    this.fetchFieldsNeeded = this.fetchFieldsNeeded.bind(this);
+    this.fetchAccount = this.fetchAccount.bind(this);
     this.onClickBeginSetup = this.onClickBeginSetup.bind(this);
     this.onStartAccountSetup = this.onStartAccountSetup.bind(this);
+    this.getFieldValue = this.getFieldValue.bind(this);
+    this.fieldsNeededFormChange = this.fieldsNeededFormChange.bind(this);
+    this.onClickSaveFieldsNeeded = this.onClickSaveFieldsNeeded.bind(this);
   }
 
   componentWillMount(){
-      this.fetchFieldsNeeded();
+      this.fetchAccount();
   }
+  getFieldValue(key){
+      const{
+          fieldsNeededForm,
+      } = this.state;
 
-  fetchFieldsNeeded() {
+      if(fieldsNeededForm[key]){
+          return fieldsNeededForm[key];
+      }else{
+          return '';
+      }
+  };
+
+
+  fieldsNeededFormChange(e, key){
+    const{
+        fieldsNeededForm,
+    } = this.state;
+
+    fieldsNeededForm[key]= e.target.value;
+
+    this.setState({
+        fieldsNeededForm,
+    });
+  };
+
+  fetchAccount() {
     fetch(`${API}/stripe/account/get`, 
     { 
         method: 'POST',
@@ -37,18 +65,20 @@ class stripeAccount extends Component {
         const {
             success,
             message,
-            setupBegan
+            setupBegan,
+            account,
         } = json;
 
         if (success){
             this.setState({
                 setupBegan,
-                isLoadingFieldsNeeded: false,
+                isLoading: false,
+                account,
             });
         } else {
             this.setState({
                 error: message,
-                isLoadingFieldsNeeded: false,
+                isLoading: false,
             });
         }
       });
@@ -56,7 +86,7 @@ class stripeAccount extends Component {
 
   onStartAccountSetup() {
       this.setState({
-          isLoadingFieldsNeeded: true,
+        isLoading: true,
       });
     fetch(`${API}/stripe/account/setup`, 
     { 
@@ -77,11 +107,11 @@ class stripeAccount extends Component {
         } = json;
 
         if (success){
-            this.fetchFieldsNeeded();
+            this.fetchAccount();
         } else {
             this.setState({
                 error: message,
-                isLoadingFieldsNeeded: false,
+                isLoading: false,
             });
         }
       });
@@ -92,14 +122,53 @@ class stripeAccount extends Component {
       this.onStartAccountSetup();
   }
 
+  onClickSaveFieldsNeeded(){
+      console.log('onClickSaveFieldsNeeded');
+    const {
+        fieldsNeededForm,
+    } = this.state;
+
+      this.setState({
+          isLoading:true,
+      });
+
+      fetch(`${API}/stripe/account/save`, 
+    { 
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(fieldsNeededForm),
+    })
+      .then(res => res.json())
+      .then(json => {
+        const {
+            success,
+            message,
+        } = json;
+
+        if (success){
+            this.fetchAccount();
+        } else {
+            this.setState({
+                error: message,
+                isLoading: false,
+            });
+        }
+      });
+  }
+
+
   render() {
       const {
-          isLoadingFieldsNeeded,
+          isLoading,
           setupBegan,
           error,
+          account,
       } = this.state;
 
-      if(isLoadingFieldsNeeded){
+      if(isLoading){
           return(
               <p>Loading...</p>
           );
@@ -121,6 +190,12 @@ class stripeAccount extends Component {
           );
       }
 
+    console.log('account', account);
+
+    const {requirements} = account;
+    const {currently_due} = requirements;
+    // const {external_accounts} = account;
+
     return (
       <div>
           {
@@ -128,9 +203,37 @@ class stripeAccount extends Component {
                         <p>{error}</p>
                     ) : (null)
                 }
-          <p>Start adding Stripe elements</p>
+
+                {
+                    (currently_due.length === 0)?(
+                        <p>All Setup</p>
+                    ) :
+                (<div>
+                    {
+                    currently_due.map(fieldKey =>{
+                    return(
+                        <InputKeyValue
+                        text={fieldKey}
+                        id={fieldKey}
+                        value={this.getFieldValue(fieldKey)}
+                        // key={Math.random()} causes issue with text field
+                        onTextboxChange={this.fieldsNeededFormChange}
+                        />
+                    );
+                })
+            } }
+            {/* <VerificationForm></VerificationForm> */}
+            <div>
+                <button 
+                onClick={this.onClickSaveFieldsNeeded}>
+                    Save
+                </button>
+            </div>
+            </div>
+            )
+            }
       </div>
-    );
+    )
   }
 }
 

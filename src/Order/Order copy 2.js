@@ -1,16 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import * as actions from '../actionTypes';
 import styled from 'styled-components';
 import {DialogContent, DialogFooter, ConfirmButton} from "../FoodDialog/FoodDialog";
 import {formatPrice} from "../Data/FoodData";
 import {getPrice} from "../FoodDialog/FoodDialog";
-//import {signin, authenticate} from '../auth';
+import {signin, authenticate} from '../auth';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-//import {API} from "../config";
-
+import {API} from "../config";
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe('pk_test_51HJqHJGl9xwp0fdrtqsR98zycaHBM0a6V6ZzsUL5uC3utm8Y2yHigTStkr2lH8F4nW2R3BCb2CEj9S4yMTLyFEv900l6GU6XRb', {
+    stripeAccount: "acct_1HRNLcDQrRsPJFuN"
+  });
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -76,8 +79,12 @@ const DetailItem = styled.div`
 flex-direction: column;
 `
 
+function refreshPage() {
+    window.location.reload(false);
+  }
+
 export function Order({orders, setOrders, setOpenFood}) {
-   // const [items, setItems] = useState([]);
+    const [items, setItems] = useState([]);
     const dispatch = useDispatch();
     const cart = useSelector((state)=>state.cart);
     const subtotal = cart.reduce((total, order) => {
@@ -86,17 +93,62 @@ export function Order({orders, setOrders, setOpenFood}) {
     const tax = subtotal * 0.07;
     const processingFee = (tax + subtotal) * 0.05;
     const total = subtotal + tax + processingFee;
-
-    // const [user, setUser] = useState({
-    //     email: "guest@guest.com",
-    //     password: "Franslk1",
-    //     error: "",
-    //     loading: false,
-    //     redirectToReferrer: false,
-    // });
+    // const [run, setRun] = useState(false);
+    const [user, setUser] = useState({
+        email: "guest@guest.com",
+        password: "Franslk1",
+        error: "",
+        loading: false,
+        redirectToReferrer: false,
+    });
     const classes = useStyles(); 
 
-   // const {email, password, loading, error, redirectToReferrer} = user;
+    const {email, password, loading, error, redirectToReferrer} = user;
+
+    const handleClick = async (event) => {
+        // Get Stripe.js instance
+        const stripe = await stripePromise;
+    
+        // Call your backend to create the Checkout Session
+        const response = await fetch(`${API}/create-checkout-session/`, { method: 'POST' });
+    
+        const session = await response.json();
+    
+        // When the customer clicks on the button, redirect them to Checkout.
+        const result = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
+    
+        if (result.error) {
+          // If `redirectToCheckout` fails due to a browser or network
+          // error, display the localized error message to your customer
+          // using `result.error.message`.
+        }
+      };
+
+    // const clickSubmit = event => {
+    //     event.preventDefault();
+    //     setUser({...user, error: false, loading: true});
+    //     signin({email, password})
+    //     .then(data => {
+    //         if(data.error) {
+    //             setUser({...user, error: data.error, loading: false});
+    //         } else {
+    //             authenticate(data, () => {
+    //                 setUser({
+    //                     ...user,
+    //                     redirectToReferrer: true
+    //                 });
+    //             });
+    //         }
+    //     });
+    // };
+
+    const redirectUser = () => {
+        if(redirectToReferrer){
+            return <Redirect to="/checkout"/>;
+        }
+    };
 
     const deleteItem= (index) => {
         const newOrders = [...orders];
@@ -119,9 +171,16 @@ export function Order({orders, setOrders, setOpenFood}) {
             {" "}
             {cart.map((order, index) => (
                 <OrderContainer editable>
+                    {/* <OrderItem
+                    onClick={() => {
+                        setOpenFood({...order, index});
+
+                    }}
+                    > */}
                     <div editable
                         onClick={() => {
                             setOpenFood({...order, index});
+    
                         }}
                         className={classes.root}>
                         <Grid container spacing={4}>
@@ -138,6 +197,7 @@ export function Order({orders, setOrders, setOpenFood}) {
             {formatPrice(getPrice(order))}</Grid>
             </Grid>
             </div>
+                    {/* </OrderItem> */}
                     <DetailItem>
                         {order.toppings
                         .filter(t => t.checked)

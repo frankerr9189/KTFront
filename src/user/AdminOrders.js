@@ -51,7 +51,7 @@ function AdminOrders() {
         const {user, token} = isAuthenticated();
     
         const ordersToProcess = orders.filter(
-            (order) => (order.status !== 'Completed' && order.status!== 'Cancelled'))
+            (order) => (order.status !== 'Completed' && order.status!== 'Cancelled' && order.status!== 'DO NOT PROCESS'))
             
         const loadOrders = () => {
             listOrders(user._id, token).then(data => {
@@ -147,7 +147,7 @@ function AdminOrders() {
                     <div>{o.ShipAddress}</div>
                     <div>{o.ShipCity}{", "}{o.ShipState}{" "}{o.ShipZip}</div>
                     </StyledTableCell>
-                      <StyledTableCell align="right">{'$'}{o.totalPrice.toFixed(2)}</StyledTableCell>
+                      <StyledTableCell align="right">{'$'}{o.totalPrice}</StyledTableCell>
                       <StyledTableCell align="right">{o.method}</StyledTableCell>
                       <StyledTableCell align="right">{showStatus(o)}</StyledTableCell>
                       <StyledTableCell align="right">{o.orderItems.map ((p, pIndex) => (
