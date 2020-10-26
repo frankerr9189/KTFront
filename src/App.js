@@ -11,7 +11,6 @@ import {useOpenFood} from "./Hooks/useOpenFood";
 import {useOrders} from "./Hooks/useOrders";
 import {useTitle} from "./Hooks/useTitle";
 import { ThemeProvider } from '@material-ui/styles';
-import theme from './constants/theme';
 
 function App() {
   const openFood = useOpenFood();
