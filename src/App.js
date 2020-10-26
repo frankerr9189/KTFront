@@ -10,7 +10,8 @@ import {Order} from "./Order/Order";
 import {useOpenFood} from "./Hooks/useOpenFood";
 import {useOrders} from "./Hooks/useOrders";
 import {useTitle} from "./Hooks/useTitle";
-import { ThemeProvider } from '@material-ui/styles';
+//import { ThemeProvider } from '@material-ui/styles';
+//import theme from './constants/theme';
 
 function App() {
   const openFood = useOpenFood();
@@ -20,14 +21,14 @@ function App() {
   return (
     <>
     <Provider store={store}>
-    <ThemeProvider theme={theme}>
+    {/* <ThemeProvider theme={theme}> */}
     <GlobalStyle/>
     <FoodDialog {...openFood}{...orders}/>
     <Navbar/>
     <Order {...orders} {...openFood}/>
     <Banner/>
     <Menu {...openFood}/>   
-    </ThemeProvider>
+    {/* </ThemeProvider> */}
    </Provider>
    </>
   );
