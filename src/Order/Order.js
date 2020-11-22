@@ -5,6 +5,7 @@ import * as actions from '../actionTypes';
 import styled from 'styled-components';
 import {DialogContent, DialogFooter, ConfirmButton} from "../FoodDialog/FoodDialog";
 import {formatPrice} from "../Data/FoodData";
+import {Title} from '../Styles/title';
 import {getPrice} from "../FoodDialog/FoodDialog";
 //import {signin, authenticate} from '../auth';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,6 +23,26 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+  export const greyConfirmButton = styled(Title)`
+  margin: 10px;
+  color: white;
+  height: 20px;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  width: 200px;
+  cursor: pointer;
+  background-color: grey;
+  ${({disabled}) => disabled &&
+  `
+  opacity: .5;
+  background-color: grey;
+  pointer-events: none;
+  `}
+  @media (max-width: 700px){
+  width: 25%
+  }
+  `;
 
 const OrderStyled = styled.div`
 position: fixed;
@@ -176,11 +197,12 @@ export function Order({orders, setOrders, setOpenFood}) {
            
         </OrderContent>}
         <DialogFooter>
+            { cart.length === 0 ? <greyConfirmButton>Add Items</greyConfirmButton>:
             <ConfirmButton>
             <Link to="/checkout">
                 Checkout </Link>
             </ConfirmButton>
-
+            }
         </DialogFooter>
     </OrderStyled>
 }

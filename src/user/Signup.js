@@ -42,8 +42,8 @@ function Signup() {
          setValues({...values, error: false, loading: true});
          signup({name, email, password})
           .then(data => {
-              if(data.error) {
-              setValues({...values, error: data.error, success: false});
+              if(data.err) {
+              setValues({...values, error: data.err, success: false});
               } else {
         //          authenticate(data, () => {
                       setValues({

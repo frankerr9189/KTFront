@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {DashLinkGrid, DashLink, DashLabel} from './dashlinkhelper';
 import {isAuthenticated} from '../auth';
 import {Redirect, Router} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const DashStyled = styled.div`
     height: 500px;
@@ -42,10 +43,10 @@ export function DashHelper({setCategoryWin, setProductWin, setProductUpdate, set
                     
                 </DashLabel>
                 </DashLink>
-                <DashLink onClick={()=> {
-                orderRedirect()
-            }}>
-                <DashLabel> View Orders</DashLabel></DashLink>
+                <DashLink>
+                <Link to="/adminorders"><DashLabel>
+                View Orders </DashLabel></Link>
+                </DashLink>
             <DashLink onClick={()=> {
                 setProductUpdate("Manage Product")
             }}><DashLabel>Manage Products</DashLabel></DashLink>

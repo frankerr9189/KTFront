@@ -270,7 +270,6 @@ export function CheckoutStyled(){
                 <label className="text-muted">Zip: </label>
                 <input onChange={handleChange('ShipZip')} type="text" className="form-control" value={ShipZip||""}/>
             </div>
-            {/* <button className="btn btn-outline-primary">Shipping</button> */}
         </form>
     );
 
@@ -295,7 +294,33 @@ export function CheckoutStyled(){
 
     <PaymentStyled>
         {shippingMethod()}
-        {shippingForm()}
+        {deliveryMethod === 'Pick Up' ? "Proceed below" : <form className="mb-3">
+            <div className="form-group">
+                <label className="text-muted">Name: </label>
+                <input onChange={handleChange('ShipName')} type="text" className="form-control" value={ShipName || ""}/>
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Email: </label>
+                <input onChange={handleChange('ShipEmail')} type="text" className="form-control" value={ShipEmail|| ""}/>
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Address: </label>
+                <input onChange={handleChange('ShipAddress')} type="text" className="form-control" value={ShipAddress||""}/>
+            </div>
+            <div className="form-group">
+                <label className="text-muted">City: </label>
+                <input onChange={handleChange('ShipCity')} type="text" className="form-control" value={ShipCity||""}/>
+            </div>
+            <div className="form-group">
+                <label className="text-muted">State: </label>
+                <input onChange={handleChange('ShipState')} type="text" className="form-control" value={ShipState||""}/>
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Zip: </label>
+                <input onChange={handleChange('ShipZip')} type="text" className="form-control" value={ShipZip||""}/>
+            </div>
+        </form>}
+        {/* {shippingForm()} */}
             <button role="link" onClick={handleClick}>
       Checkout
     </button>
